@@ -1,5 +1,6 @@
 package com.example.cafeteria;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,11 +56,8 @@ public class BocadillosFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         listView = (ListView)getView().findViewById(R.id.listview);
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, Nombres);
-
-/*
         adapter= new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, ima);
-        adapter= new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, dinero);
-        */
+        //adapter= new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, dinero);
 
         listView.setAdapter(adapter);
         /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,6 +73,7 @@ public class BocadillosFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             Nombres.clear();
+            ima.clear();
             try {
                 URL url = new URL("https://tucafeteria.000webhostapp.com/listview.php");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -91,7 +90,7 @@ public class BocadillosFragment extends Fragment {
                 for (int i = 0; i < jArray.length(); i++) {
                     JSONObject json = (JSONObject) jArray.get(i);
                     Nombres.add(new String(json.getString("Nombre")));
-                    //ima.add(json.getString("icon"));
+                    ima.add(json.getString("Imagen"));
                 }
 
             } catch (MalformedURLException e) {
@@ -105,7 +104,7 @@ public class BocadillosFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(String result) {
-            CustomListView customListView = new CustomListView(getActivity(),Nombres);
+            CustomListView customListView = new CustomListView(getActivity(),Nombres, ima);
             listView.setAdapter(customListView);
         }
 

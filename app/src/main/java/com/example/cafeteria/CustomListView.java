@@ -1,29 +1,32 @@
 package com.example.cafeteria;
 
 import android.app.Activity;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class CustomListView extends ArrayAdapter<String> {
 
     private ArrayList<String> Nombres;
-    //private ArrayList<String> ima;
+    private ArrayList<String> ima;
     private Activity context;
 
-    public CustomListView(Activity context, ArrayList<String> Nombres/*, ArrayList<String> ima*/) {
+    public CustomListView(Activity context, ArrayList<String> Nombres, ArrayList<String> ima) {
         super(context, R.layout.listview_element, Nombres);
         this.context=context;
         this.Nombres = Nombres;
-        //this.ima=ima;
+        this.ima=ima;
     }
 
     @NonNull
@@ -41,26 +44,27 @@ public class CustomListView extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) r.getTag();
 
         }
-       /* String src= ima.get(position);
-
+        String src= ima.get(position);
+/*
         Picasso.get()
                 .load(src)
                 .placeholder(null)
                 .resize(250,350)
                 .into(viewHolder.imageView);
-
-        Picasso.get().load(src).into(viewHolder.imageView);*/
+*/
+        //Picasso.get().load(src).into(viewHolder.imageView);
+        //new Bitmap_class(viewHolder.imageView).execute(src);
+        viewHolder.imageView.setImageURI(Uri.parse((ima.get(position))));
         viewHolder.textView.setText(Nombres.get(position));
         return r;
     }
 
      class ViewHolder{
         TextView textView;
-        //ImageView imageView;
+        ImageView imageView;
         ViewHolder(View view){
             textView = (TextView) view.findViewById(R.id.tvoptions);
-            //imageView = (ImageView)view.findViewById(R.id.imageView);
-
+            imageView = (ImageView)view.findViewById(R.id.imageView);
         }
     }
 
